@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n farklı nesneden r tanesinin sıralama sayısını bulma</title>
+    <style>
+        body {
+            font-family: Helveticasinav, sans-serif;
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            width: 100px;
+        }
+        #sonuc {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .hata {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>n farklı nesneden r tanesinin sıralama sayısını bulma</h1>
+    
+    <div>
+        <label for="n">Toplam nesne sayısı(n):</label>
+        <input type="number" id="n" min="0" onkeydown="return event.keyCode !== 189 && event.keyCode !== 188 && event.keyCode !== 190" placeholder="n ≥ 0" required>
+    </div>
+    
+    <div>
+        <label for="r">Sıralanacak nesne sayısı(r):</label>
+        <input type="number" id="r" min="0" onkeydown="return event.keyCode !== 189 && event.keyCode !== 188 && event.keyCode !== 190" placeholder="r ≤ n" required>
+    </div>
+    
+    <button onclick="hesapla()">Hesapla</button>
+    
+    <div id="sonuc"></div>
+    <div id="hata" class="hata"></div>
+
+    <script>
+        function hesapla() {
+            // Değerleri al
+            const n = document.getElementById('n').valueAsNumber;
+            const r = document.getElementById('r').valueAsNumber;
+            const sonucElement = document.getElementById('sonuc');
+            const hataElement = document.getElementById('hata');
+            
+            // Hataları temizle
+            sonucElement.textContent = '';
+            hataElement.textContent = '';
+            
+            // Geçerlilik kontrolü
+            if (n < r) {
+                hataElement.textContent = "Hata: n ≥ r olmalıdır!";
+                return;
+            }
+            
+            // Hesaplama
+            let sonuc = 1;
+            for (let i = n - r + 1; i <= n ; i+=1) {
+                sonuc *= i;
+            }
+            
+            // Sonucu göster
+            sonucElement.innerHTML = `${n} farklı nesneden ${r} tanesinin sıralama sayısı ${sonuc} olur.`;
+        }
+        
+        // r'nin maksimum değerini n'ye bağla
+        document.getElementById('n').addEventListener('input', function() {
+            const n = this.valueAsNumber;
+            document.getElementById('r').max = n;
+        });
+    </script>
+</body>
+</html>
